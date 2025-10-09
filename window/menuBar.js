@@ -11,7 +11,7 @@ function generateMenuBar() {
   if (!document.querySelector('link[href*="menu-bar.css"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "styles/menu-bar.css";
+    link.href = "/styles/menu-bar.css";
     document.head.appendChild(link);
   }
 
