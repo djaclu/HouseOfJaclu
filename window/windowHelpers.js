@@ -15,19 +15,15 @@ export function hexToRgb(hex) {
 
 export async function fetchSVGSource(svgId) {
   try {
-    // Both glass-svg and glow-svg use the same WINDOW.svg file
-    // Use absolute URL to ensure it works across all deployment environments
-    const svgPath = `${window.location.origin}/assets/jaclu-window/WINDOW.svg`;
+    // Get the actual hashed filename from the preload link
+    const svgPath =
+      document.querySelector('link[href*="WINDOW.svg"]')?.href ||
+      `${window.location.origin}/assets/jaclu-window/WINDOW.svg`;
 
     const response = await fetch(svgPath);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-    if (!response.ok) {
-      //CHECK FOR FAILURE
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const svgContent = await response.text(); //STORE THE SVG
-    return svgContent;
+    return await response.text();
   } catch (error) {
     console.log(`Error fetching SVG for ${svgId}:`, error);
     return null;
