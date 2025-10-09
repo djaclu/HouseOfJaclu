@@ -18,7 +18,7 @@ export async function fetchSVGSource(svgId) {
     // Get the actual hashed filename from the preload link
     const svgPath =
       document.querySelector('link[href*="WINDOW.svg"]')?.href ||
-      `${window.location.origin}/assets/jaclu-window/WINDOW.svg`;
+      `${window.location.origin}/public/jaclu-window/WINDOW.svg`;
 
     const response = await fetch(svgPath);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

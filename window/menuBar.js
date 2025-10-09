@@ -56,7 +56,7 @@ function generateMenuBar() {
 
   // Add carriage icon to relics link on all pages
   const carriageIcon = document.createElement("img");
-  carriageIcon.src = "assets/icons/carriage.svg";
+  carriageIcon.src = "public/icons/carriage.svg";
   carriageIcon.alt = "carriage";
   carriageIcon.className = "menu-icon";
   // relicsLink.appendChild(carriageIcon);

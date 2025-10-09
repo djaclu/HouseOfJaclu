@@ -100,7 +100,7 @@ body.scrollable {
 
 @font-face {
     font-family: 'Unifraktur-Regular';
-    src: url('assets/fonts/UnifrakturMaguntia-Regular.ttf') format('truetype');
+    src: url('public/fonts/UnifrakturMaguntia-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Optimize font loading */
@@ -108,7 +108,7 @@ body.scrollable {
 
 @font-face {
     font-family: 'Isenheim';
-    src: url('assets/fonts/Isenheim_Regulier.otf') format('opentype');
+    src: url('public/fonts/Isenheim_Regulier.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Optimize font loading */
@@ -116,7 +116,7 @@ body.scrollable {
 
 @font-face {
     font-family: 'Unifraktur-Cook';
-    src: url('assets/fonts/UnifrakturCook-Bold.ttf') format('truetype');
+    src: url('public/fonts/UnifrakturCook-Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Optimize font loading */
@@ -124,14 +124,14 @@ body.scrollable {
 
 @font-face {
     font-family: 'Facade-Sud';
-    src: url('assets/fonts/Facade-Sud.otf') format('opentype');
+    src: url('public/fonts/Facade-Sud.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Optimize font loading */
 }
 @font-face {
     font-family: 'BerlinFraktur-24';
-    src: url('assets/fonts/BerlinFraktur-24.otf') format('opentype');
+    src: url('public/fonts/BerlinFraktur-24.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Optimize font loading */
