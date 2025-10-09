@@ -16,8 +16,8 @@ export function hexToRgb(hex) {
 export async function fetchSVGSource(svgId) {
   try {
     // Both glass-svg and glow-svg use the same WINDOW.svg file
-    // Use relative path that works across different deployment environments
-    const svgPath = "./assets/jaclu-window/WINDOW.svg";
+    // Use absolute URL to ensure it works across all deployment environments
+    const svgPath = `${window.location.origin}/assets/jaclu-window/WINDOW.svg`;
 
     const response = await fetch(svgPath);
 
