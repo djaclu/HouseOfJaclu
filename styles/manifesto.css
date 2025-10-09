@@ -1,0 +1,144 @@
+
+
+/* Manifesto page specific styling */
+body.manifesto-page {
+    background-color: black;
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
+}
+
+/* Override for manifesto page to allow scrolling */
+body.manifesto-page .title-container {
+    justify-content: flex-start;
+    padding-top: 2rem;
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 2rem
+}
+
+/* Ensure menu and footer stay fixed on manifesto page */
+body.manifesto-page .menu-bar {
+    position: fixed;
+    top: 0;
+    z-index: 12;
+}
+
+body.manifesto-page .footer {
+    position: fixed;
+    bottom: 10px;
+    z-index: 12;
+}
+
+.creed-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 12;
+    pointer-events: none;
+    font-family: 'Unifraktur-Regular', serif;
+    font-size: 39.5px;
+    letter-spacing: 2px;
+    fill: #FFFDD0;
+    filter: drop-shadow(0 0 8px rgba(255, 253, 208, 0.6)) drop-shadow(0 0 16px rgba(255, 253, 208, 0.4)) drop-shadow(0 0 24px rgba(255, 253, 208, 0.2));
+}
+
+.creed-text textPath {
+    text-anchor: start;
+}
+
+.manifesto-content {
+    width: 50vw;
+    min-width: 450px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.manifesto-box {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.manifesto-title {
+    font-family: 'Unifraktur-Regular';
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    color: #FFFDD0; /* creamy color */
+    /* border: 1px solid purple; */
+}
+
+.manifesto-subtitle {
+    font-family: 'BerlinFraktur-24', serif;
+    font-size: 1.25rem;
+    color: red;
+    letter-spacing: 2px;
+    text-transform: lowercase;
+    justify-content: left;
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.manifesto-title {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    color: #FFFDD0;
+}
+
+.manifesto-text {
+    font-family: 'Unifraktur-Regular', serif;
+    text-align: center;
+    font-size: 1.5rem;
+    color:  #FFFDD0;
+    margin: 0;
+    line-height: 1.6;
+    padding-bottom: 10px;
+    text-transform: lowercase;
+}
+
+/* Window image styling */
+.window-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.window-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+}
+
+/* Responsive manifesto styles */
+@media (max-width: 768px) {
+    .manifesto-title {
+        font-size: 6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .manifesto-content {
+        width: 100vw;
+    }
+    
+    .manifesto-title {
+        font-size: 4rem;
+    }
+    
+    .manifesto-text {
+        font-size: 0.75rem;
+    }
+}

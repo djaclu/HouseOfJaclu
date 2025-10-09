@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JACLU - Manifesto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="assets/fonts/Isenheim_Regulier.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="assets/fonts/UnifrakturMaguntia-Regular.ttf" as="font" type="font/ttf" crossorigin>
+</head>
+<body class="scrollable manifesto-page">
+    <div class="background-svg">
+
+    </div>
+    
+    <!-- SVG definitions for gothic arch clipping -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <clipPath id="gothic-arch" clipPathUnits="objectBoundingBox">
+                <path d="M0,1 L0,0.4 Q0.1,0.35 0.2,0.3 Q0.3,0.25 0.4,0.22 Q0.45,0.2 0.5,0.18 Q0.55,0.2 0.6,0.22 Q0.7,0.25 0.8,0.3 Q0.9,0.35 1,0.4 L1,1 Z" />
+            </clipPath>
+        </defs>
+    </svg>
+    <div class="title-container">
+        <div class="manifesto-box">
+            <div class="manifesto-content">
+                <h1 class="manifesto-title">welcome</h1>
+                <div class="manuscript scrollable-manuscript">
+                    <!-- <h1 class="manifesto-subtitle">Welcome, Seeker</h1> -->
+                    <p class="manifesto-text">
+                        You have entered our sanctuary. <br>
+                        Here, beauty is the only law;  <br>
+                        and restraint the only sin. <br>
+                        Minimalism is exile—we choose excess. <br>
+                        We worship ornament, romance, and desire. <br>
+                        You are not a customer, but a conspirator. <br>
+                        Not a buyer, but a believer. <br>
+                        Walk with us in rebellion. <br>
+                        Adorn yourself in devotion. <br>
+                        You are one of the chosen. <br><br>
+                        Sin in Beauty. Grace in Rebellion.
+                    </p>
+                    
+                    <!-- Window Image -->
+                    <div class="window-image-container">
+                        <img src="assets/jaclu-window/WINDOW_B&W.png" alt="JACLU Window Design" class="window-image">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="window/menuBar.js" defer></script>
+    <script type="module" src="window/init.js" defer></script>
+    
+    <script>
+        // Dynamically load manifesto CSS
+        if (!document.querySelector('link[href*="manifesto.css"]')) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = "styles/manifesto.css";
+            document.head.appendChild(link);
+        }
+    </script>
+</body>
+</html>
