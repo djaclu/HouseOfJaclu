@@ -8,7 +8,7 @@ function loadWindow() {
   // }, 5000);
 
   loadSVGAndApplyColors("glow-svg"); //LOAD GLOW
-  loadSVGAndApplyColors("glass-svg"); //LOAD GLASS
+  // loadSVGAndApplyColors("glass-svg"); //LOAD GLASS
 }
 
 async function loadSVGAndApplyColors(svgId) {
