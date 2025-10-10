@@ -9,7 +9,7 @@ body {
     color: #333;
     background-color: black;
     height: 100vh;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Allow scrolling on specific pages */
@@ -94,7 +94,7 @@ body.scrollable {
     justify-content: center;
 }
 
-/* Landscape mode font size */
+Landscape mode font size
 @media (orientation: landscape) {
     .jaclu-title {
         /* font-size: 16vh; */
