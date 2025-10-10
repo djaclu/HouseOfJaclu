@@ -13,7 +13,7 @@ function generateMenuBar() {
   if (!document.querySelector('link[href*="menu-bar.css"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "./menuBar.css";
+    link.href = "/styles/menu-bar.css";
     document.head.appendChild(link);
   }
 
@@ -39,7 +39,7 @@ function generateMenuBar() {
 
   // Create Manifesto link
   const manifestoLink = document.createElement("a");
-  manifestoLink.href = "/manifesto.html";
+  manifestoLink.href = "manifesto.html";
   manifestoLink.className = "menu-link";
   manifestoLink.textContent = "MANIFESTO";
   leftMenuSection.appendChild(manifestoLink);
