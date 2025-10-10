@@ -39,7 +39,7 @@ function generateMenuBar() {
 
   // Create Manifesto link
   const manifestoLink = document.createElement("a");
-  manifestoLink.href = "manifesto.html";
+  manifestoLink.href = "/manifesto.html";
   manifestoLink.className = "menu-link";
   manifestoLink.textContent = "MANIFESTO";
   leftMenuSection.appendChild(manifestoLink);
