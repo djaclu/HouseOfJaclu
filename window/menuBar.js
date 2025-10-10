@@ -1,3 +1,5 @@
+import "/styles/menu-bar.css";
+
 /**
  * Dynamic Menu Bar Generator for JACLU Website
  * This function generates menu bars dynamically based on page type
@@ -11,7 +13,7 @@ function generateMenuBar() {
   if (!document.querySelector('link[href*="menu-bar.css"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/styles/menu-bar.css";
+    link.href = "./menuBar.css";
     document.head.appendChild(link);
   }
 
