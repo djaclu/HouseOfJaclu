@@ -3,7 +3,6 @@
 /* Manifesto page specific styling */
 body.manifesto-page {
     background-color: black;
-    overflow: auto;
     height: auto;
     min-height: 100vh;
 }

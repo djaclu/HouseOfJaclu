@@ -15,7 +15,6 @@
 
 .relics-main {
     flex: 1;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -134,7 +133,6 @@ body.relic-page .product-container {
 .main-image-container {
     width: 100%;
     aspect-ratio: 1;
-    overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
 }
@@ -153,7 +151,6 @@ body.relic-page .product-container {
 .thumbnail-container {
     display: flex;
     gap: 10px;
-    overflow-x: auto;
     padding: 10px 0;
 }
 
