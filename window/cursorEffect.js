@@ -18,6 +18,12 @@ export class CursorEffect {
     this.isMouseOverWindow = false; // Track if mouse is over the window
     this.shimmerInterval = null; // For random shimmer effect
     this.shimmerPaths = new Set(); // Paths currently in shimmer mode
+    this.isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0; // Detect mobile device
+
+    // Adjust radius for mobile devices (larger radius for easier touch interaction)
+    if (this.isMobile) {
+      this.radius = Math.max(this.radius, 300); // Ensure minimum radius on mobile
+    }
 
     // Cache for expensive coordinate calculations
     this.coordinateCache = {
@@ -82,6 +88,54 @@ export class CursorEffect {
       this.updatePathVisibility();
     };
 
+    // Touch event handlers for mobile support
+    this.touchMoveHandler = (e) => {
+      // Only prevent default if we're over the SVG element to avoid interfering with page scrolling
+      const rect = this.svgElement.getBoundingClientRect();
+      const touch = e.touches[0];
+      const isOverSVG =
+        touch.clientX >= rect.left &&
+        touch.clientX <= rect.right &&
+        touch.clientY >= rect.top &&
+        touch.clientY <= rect.bottom;
+
+      if (isOverSVG) {
+        e.preventDefault(); // Prevent scrolling only when over the SVG
+      }
+
+      if (e.touches.length > 0) {
+        // Use the first touch point
+        const touch = e.touches[0];
+        // Create a synthetic mouse event-like object
+        const syntheticEvent = {
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+        };
+        this.updateMousePosition(syntheticEvent);
+        this.updatePathVisibility();
+      }
+    };
+
+    this.touchStartHandler = (e) => {
+      this.isMouseOverWindow = true;
+      this.stopShimmerEffect();
+      // Also handle the initial touch position
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const syntheticEvent = {
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+        };
+        this.updateMousePosition(syntheticEvent);
+        this.updatePathVisibility();
+      }
+    };
+
+    this.touchEndHandler = (e) => {
+      this.isMouseOverWindow = false;
+      this.startShimmerEffect();
+    };
+
     // Mouse enter/leave handlers for the window area
     this.mouseEnterHandler = () => {
       this.isMouseOverWindow = true;
@@ -96,9 +150,24 @@ export class CursorEffect {
     // Global mouse move event - works anywhere on the page
     document.addEventListener("mousemove", this.mouseMoveHandler);
 
+    // Global touch events for mobile support
+    document.addEventListener("touchmove", this.touchMoveHandler, {
+      passive: false,
+    });
+    document.addEventListener("touchstart", this.touchStartHandler, {
+      passive: false,
+    });
+    document.addEventListener("touchend", this.touchEndHandler);
+
     // Add window area detection
     this.svgElement.addEventListener("mouseenter", this.mouseEnterHandler);
     this.svgElement.addEventListener("mouseleave", this.mouseLeaveHandler);
+
+    // Touch events for the SVG element
+    this.svgElement.addEventListener("touchstart", this.touchStartHandler, {
+      passive: false,
+    });
+    this.svgElement.addEventListener("touchend", this.touchEndHandler);
 
     // Always active - no need for enter/leave events
     this.isActive = true;
@@ -363,12 +432,31 @@ export class CursorEffect {
       document.removeEventListener("mousemove", this.mouseMoveHandler);
     }
 
+    // Remove document-level touch event listeners
+    if (this.touchMoveHandler) {
+      document.removeEventListener("touchmove", this.touchMoveHandler);
+    }
+    if (this.touchStartHandler) {
+      document.removeEventListener("touchstart", this.touchStartHandler);
+    }
+    if (this.touchEndHandler) {
+      document.removeEventListener("touchend", this.touchEndHandler);
+    }
+
     // Remove window area event listeners
     if (this.mouseEnterHandler) {
       this.svgElement.removeEventListener("mouseenter", this.mouseEnterHandler);
     }
     if (this.mouseLeaveHandler) {
       this.svgElement.removeEventListener("mouseleave", this.mouseLeaveHandler);
+    }
+
+    // Remove SVG element touch event listeners
+    if (this.touchStartHandler) {
+      this.svgElement.removeEventListener("touchstart", this.touchStartHandler);
+    }
+    if (this.touchEndHandler) {
+      this.svgElement.removeEventListener("touchend", this.touchEndHandler);
     }
 
     // Stop shimmer effect
