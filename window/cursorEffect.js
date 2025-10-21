@@ -18,6 +18,9 @@ export class CursorEffect {
     this.isMouseOverWindow = false; // Track if mouse is over the window
     this.shimmerInterval = null; // For random shimmer effect
     this.shimmerPaths = new Set(); // Paths currently in shimmer mode
+    this.autoSweepInterval = null; // For automatic sweep effect
+    this.autoSweepIndex = 0; // Current position in the sweep
+    this.autoSweepRadius = options.autoSweepRadius || 400; // Radius of the sweep window
     this.isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0; // Detect mobile device
 
     // Adjust radius for mobile devices (larger radius for easier touch interaction)
@@ -118,7 +121,7 @@ export class CursorEffect {
 
     this.touchStartHandler = (e) => {
       this.isMouseOverWindow = true;
-      this.stopShimmerEffect();
+      this.stopAutoSweep();
       // Also handle the initial touch position
       if (e.touches.length > 0) {
         const touch = e.touches[0];
@@ -133,18 +136,18 @@ export class CursorEffect {
 
     this.touchEndHandler = (e) => {
       this.isMouseOverWindow = false;
-      this.startShimmerEffect();
+      this.startAutoSweep();
     };
 
     // Mouse enter/leave handlers for the window area
     this.mouseEnterHandler = () => {
       this.isMouseOverWindow = true;
-      this.stopShimmerEffect();
+      this.stopAutoSweep();
     };
 
     this.mouseLeaveHandler = () => {
       this.isMouseOverWindow = false;
-      this.startShimmerEffect();
+      this.startAutoSweep();
     };
 
     // Global mouse move event - works anywhere on the page
@@ -172,8 +175,8 @@ export class CursorEffect {
     // Always active - no need for enter/leave events
     this.isActive = true;
 
-    // Start shimmer effect initially
-    // this.startShimmerEffect();
+    // Start auto sweep effect initially
+    this.startAutoSweep();
   }
 
   addResizeListener() {
@@ -413,6 +416,90 @@ export class CursorEffect {
     });
   }
 
+  // Auto sweep effect methods
+  startAutoSweep() {
+    if (this.autoSweepInterval) return; // Already running
+
+    // Reset to start from the top
+    this.autoSweepIndex = 0;
+
+    // Use requestAnimationFrame for smooth animation
+    const animate = () => {
+      if (!this.autoSweepInterval) return; // Stop if interval was cleared
+
+      this.updateAutoSweep();
+
+      // Continue animation loop (roughly 60fps)
+      this.autoSweepInterval = requestAnimationFrame(animate);
+    };
+
+    this.autoSweepInterval = requestAnimationFrame(animate);
+  }
+
+  stopAutoSweep() {
+    if (this.autoSweepInterval) {
+      cancelAnimationFrame(this.autoSweepInterval);
+      this.autoSweepInterval = null;
+    }
+
+    // Hide all paths that were visible from auto sweep
+    this.visiblePaths.forEach((path) => {
+      this.hidePath(path);
+    });
+    this.visiblePaths.clear();
+  }
+
+  updateAutoSweep() {
+    if (this.paths.length === 0) return;
+
+    // Increment the sweep position (moves down the page)
+    // Speed can be adjusted here - higher values = faster sweep
+    this.autoSweepIndex += 2;
+
+    // If we've reached the end, reset to the top after a brief pause
+    if (this.autoSweepIndex > this.paths.length + 50) {
+      this.autoSweepIndex = 0;
+      // Hide all paths before restarting
+      this.visiblePaths.forEach((path) => {
+        this.hidePath(path);
+      });
+      this.visiblePaths.clear();
+      return;
+    }
+
+    // Create a virtual sweep position based on the sorted path order
+    // The sweep reveals paths within a "window" that moves down
+    const currentPaths = new Set();
+
+    // Determine which paths should be visible based on the sweep position
+    this.paths.forEach((path, index) => {
+      // Calculate distance from the current sweep position
+      const distance = Math.abs(index - this.autoSweepIndex);
+
+      // Reveal paths within the sweep radius
+      if (distance < 20) {
+        // Adjust this value to change sweep window size
+        currentPaths.add(path);
+      }
+    });
+
+    // Show newly visible paths
+    currentPaths.forEach((path) => {
+      if (!this.visiblePaths.has(path)) {
+        this.showPath(path);
+        this.visiblePaths.add(path);
+      }
+    });
+
+    // Hide paths that are no longer in the sweep window
+    this.visiblePaths.forEach((path) => {
+      if (!currentPaths.has(path)) {
+        this.hidePath(path);
+        this.visiblePaths.delete(path);
+      }
+    });
+  }
+
   // Public methods for configuration
   setRadius(radius) {
     this.radius = radius;
@@ -459,8 +546,8 @@ export class CursorEffect {
       this.svgElement.removeEventListener("touchend", this.touchEndHandler);
     }
 
-    // Stop shimmer effect
-    this.stopShimmerEffect();
+    // Stop auto sweep effect
+    this.stopAutoSweep();
 
     // Clean up resize listener
     if (this.resizeHandler) {

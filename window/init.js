@@ -4,7 +4,7 @@
  */
 
 // Import and run footer generation
-// import "./footer.js";
+import "./footer.js";
 
 // Import and run menu bar generation
 import "./menuBar.js";

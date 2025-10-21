@@ -2,17 +2,13 @@ import { colorPalettes } from "./colorPalettes.js";
 import { CursorEffect } from "./cursorEffect.js";
 import { fetchSVGSource, generateInlineSVG } from "./windowHelpers.js";
 
-function loadWindow() {
-  // setTimeout(() => {
-  //   loadSVGAndApplyColors("jaclu-window"); //LOAD GLASS
-  // }, 5000);
-
-  loadSVGAndApplyColors("glow-svg"); //LOAD GLOW
-  loadSVGAndApplyColors("glass-svg"); //LOAD GLASS
+async function loadWindow() {
+  const svgContent = await fetchSVGSource("glass-svg");
+  loadSVGAndApplyColors("glow-svg", svgContent); //LOAD GLOW
+  loadSVGAndApplyColors("glass-svg", svgContent); //LOAD GLASS
 }
 
-async function loadSVGAndApplyColors(svgId) {
-  const svgContent = await fetchSVGSource(svgId);
+function loadSVGAndApplyColors(svgId, svgContent) {
   const svgElement = generateInlineSVG(svgContent, svgId);
 
   if (svgId === "glass-svg") {

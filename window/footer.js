@@ -19,19 +19,7 @@ function generateFooter() {
   const footer = document.createElement("footer");
   footer.className = "footer";
 
-  footer.innerHTML = `
-        <div class="top-footer">
-            <div class="copyright">
-                <a href="join.html">CONTACT US</a>
-            </div>
-            <div class="copyright">
-                SHIPPING AND RETURNS
-            </div>
-            <div class="copyright">
-                <a href="join.html">JOIN THE ORDER</a>
-            </div>
-        </div>
-    
+  footer.innerHTML = `    
         <div class="sub-footer">
             <div class="sub-footer-text">
                 <p>COPYRIGHT © 2025 JACLU</p>

@@ -5,7 +5,8 @@ body.manifesto-page {
     background-color: black;
     height: auto;
     min-height: 100vh;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 /* Override for manifesto page to allow scrolling */
@@ -131,7 +132,10 @@ body.manifesto-page .footer {
 
 @media (max-width: 480px) {
     .manifesto-content {
-        width: 100vw;
+        width: 100%;
+        min-width: auto;
+        max-width: 100%;
+        padding: 1rem 1.5rem;
     }
     
     .manifesto-title {
@@ -139,6 +143,6 @@ body.manifesto-page .footer {
     }
     
     .manifesto-text {
-        font-size: 0.75rem;
+        font-size: 1.25rem;
     }
 }
