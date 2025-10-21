@@ -27,7 +27,7 @@ function generateMenuBar() {
   const menuLogo = document.createElement("div");
   menuLogo.className = "menu-logo";
   const logoLink = document.createElement("a");
-  logoLink.href = "index.html";
+  logoLink.href = "/";
   logoLink.textContent = "JACLU";
   menuLogo.appendChild(logoLink);
 
@@ -37,7 +37,7 @@ function generateMenuBar() {
 
   // Create Manifesto link
   const manifestoLink = document.createElement("a");
-  manifestoLink.href = "/manifesto.html";
+  manifestoLink.href = "/manifesto";
   manifestoLink.className = "menu-link";
   manifestoLink.textContent = "MANIFESTO";
   leftMenuSection.appendChild(manifestoLink);
@@ -62,7 +62,10 @@ function generateMenuBar() {
   // relicsLink.appendChild(carriageIcon);
 
   // Add active class to relics link if on product pages
-  if (currentPage === "martyrs-choker.html") {
+  if (
+    currentPage === "martyrs-choker" ||
+    currentPage === "martyrs-choker.html"
+  ) {
     relicsLink.classList.add("active");
   }
 
