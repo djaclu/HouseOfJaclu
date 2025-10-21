@@ -1,4 +1,8 @@
 {
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": null,
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/fonts/(.*)", "destination": "/public/fonts/$1" },
     { "source": "/icons/(.*)", "destination": "/public/icons/$1" },
