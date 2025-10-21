@@ -1,16 +1,9 @@
 {
-  "trailingSlash": false,
-  "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/manifesto", "destination": "/manifesto.html" },
-    { "source": "/join", "destination": "/join.html" },
-    { "source": "/martyrs-choker", "destination": "/martyrs-choker.html" },
-    { "source": "/relics", "destination": "/relics.html" },
-    { "source": "/fonts/:path*", "destination": "/public/fonts/:path*" },
-    { "source": "/icons/:path*", "destination": "/public/icons/:path*" },
-    { "source": "/jaclu-window/:path*", "destination": "/public/jaclu-window/:path*" },
-    { "source": "/relics/:path*", "destination": "/public/relics/:path*" }
+    { "source": "/fonts/(.*)", "destination": "/public/fonts/$1" },
+    { "source": "/icons/(.*)", "destination": "/public/icons/$1" },
+    { "source": "/jaclu-window/(.*)", "destination": "/public/jaclu-window/$1" },
+    { "source": "/relics/(.*)\\.(.+)", "destination": "/public/relics/$1.$2" }
   ],
   "headers": [
     {
