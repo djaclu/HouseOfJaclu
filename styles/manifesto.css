@@ -5,6 +5,7 @@ body.manifesto-page {
     background-color: black;
     height: auto;
     min-height: 100vh;
+    overflow: visible;
 }
 
 /* Override for manifesto page to allow scrolling */

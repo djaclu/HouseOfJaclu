@@ -8,7 +8,7 @@ function loadWindow() {
   // }, 5000);
 
   loadSVGAndApplyColors("glow-svg"); //LOAD GLOW
-  // loadSVGAndApplyColors("glass-svg"); //LOAD GLASS
+  loadSVGAndApplyColors("glass-svg"); //LOAD GLASS
 }
 
 async function loadSVGAndApplyColors(svgId) {
@@ -73,14 +73,127 @@ function setShardsLight(group, groupName) {
           const g = parseInt(rgbMatch[2]);
           const b = parseInt(rgbMatch[3]);
 
-          const glowFilter = `drop-shadow(0 0 2px rgba(${r}, ${g}, ${b}, 1.0)) drop-shadow(0 0 8px rgba(${r}, ${g}, ${b}, 0.9)) drop-shadow(0 0 16px rgba(${r}, ${g}, ${b}, 0.8)) drop-shadow(0 0 24px rgba(${r}, ${g}, ${b}, 0.6))`;
+          // Create a unique filter ID for this color
+          const filterId = `glow-${r}-${g}-${b}`;
 
-          path.style.filter = glowFilter;
-          path.style.setProperty("filter", glowFilter, "important");
+          // Check if filter already exists, if not create it
+          let filterElement = document.getElementById(filterId);
+          if (!filterElement) {
+            filterElement = createGlowFilter(filterId, r, g, b);
+            // Add filter to the SVG's defs section
+            let defs = path.ownerSVGElement.querySelector("defs");
+            if (!defs) {
+              defs = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "defs"
+              );
+              path.ownerSVGElement.insertBefore(
+                defs,
+                path.ownerSVGElement.firstChild
+              );
+            }
+            defs.appendChild(filterElement);
+          }
+
+          // Apply the SVG filter using the filter attribute
+          path.setAttribute("filter", `url(#${filterId})`);
         }
       }
     }
   });
+}
+
+function createGlowFilter(id, r, g, b) {
+  const filter = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "filter"
+  );
+  filter.setAttribute("id", id);
+  filter.setAttribute("x", "-50%");
+  filter.setAttribute("y", "-50%");
+  filter.setAttribute("width", "200%");
+  filter.setAttribute("height", "200%");
+  filter.setAttribute("color-interpolation-filters", "sRGB");
+
+  // Create multiple gaussian blur layers for a better glow effect
+  const blurs = [
+    { stdDev: 2, opacity: 1.0 },
+    { stdDev: 8, opacity: 0.9 },
+    { stdDev: 16, opacity: 0.8 },
+    { stdDev: 24, opacity: 0.6 },
+  ];
+
+  // SourceGraphic for the original shape
+  const feFlood = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "feFlood"
+  );
+  feFlood.setAttribute("flood-color", `rgb(${r}, ${g}, ${b})`);
+  feFlood.setAttribute("result", "flood");
+  filter.appendChild(feFlood);
+
+  const feComposite = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "feComposite"
+  );
+  feComposite.setAttribute("in", "flood");
+  feComposite.setAttribute("in2", "SourceGraphic");
+  feComposite.setAttribute("operator", "in");
+  feComposite.setAttribute("result", "color");
+  filter.appendChild(feComposite);
+
+  // Create merge node to combine all blur layers
+  const feMerge = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "feMerge"
+  );
+
+  // Add each blur layer
+  blurs.forEach((blur, index) => {
+    const feGaussianBlur = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "feGaussianBlur"
+    );
+    feGaussianBlur.setAttribute("in", "color");
+    feGaussianBlur.setAttribute("stdDeviation", blur.stdDev);
+    feGaussianBlur.setAttribute("result", `blur${index}`);
+    filter.appendChild(feGaussianBlur);
+
+    const feComponentTransfer = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "feComponentTransfer"
+    );
+    feComponentTransfer.setAttribute("in", `blur${index}`);
+    feComponentTransfer.setAttribute("result", `opacity${index}`);
+
+    const feFuncA = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "feFuncA"
+    );
+    feFuncA.setAttribute("type", "linear");
+    feFuncA.setAttribute("slope", blur.opacity);
+    feComponentTransfer.appendChild(feFuncA);
+    filter.appendChild(feComponentTransfer);
+
+    const feMergeNode = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "feMergeNode"
+    );
+    feMergeNode.setAttribute("in", `opacity${index}`);
+    feMerge.appendChild(feMergeNode);
+  });
+
+  // Add the original graphic on top
+  const feMergeNodeSource = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "feMergeNode"
+  );
+  feMergeNodeSource.setAttribute("in", "SourceGraphic");
+  feMerge.appendChild(feMergeNodeSource);
+
+  filter.appendChild(feMerge);
+
+  return filter;
 }
 
 function setShardsAttributes(svgElement, glow = false) {
