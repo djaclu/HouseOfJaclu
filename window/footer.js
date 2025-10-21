@@ -22,7 +22,7 @@ function generateFooter() {
   footer.innerHTML = `    
         <div class="sub-footer">
             <div class="sub-footer-text">
-                <p>COPYRIGHT © 2025 JACLU</p>
+                <p>COPYRIGHT © 2025 DANIEL JACOBS LUENGO</p>
             </div>
         </div>
     `;

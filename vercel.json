@@ -1,0 +1,53 @@
+{
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/manifesto", "destination": "/manifesto.html" },
+    { "source": "/join", "destination": "/join.html" },
+    { "source": "/martyrs-choker", "destination": "/martyrs-choker.html" },
+    { "source": "/relics", "destination": "/relics.html" },
+    { "source": "/fonts/:path*", "destination": "/public/fonts/:path*" },
+    { "source": "/icons/:path*", "destination": "/public/icons/:path*" },
+    { "source": "/jaclu-window/:path*", "destination": "/public/jaclu-window/:path*" },
+    { "source": "/relics/:path*", "destination": "/public/relics/:path*" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/public/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
+
