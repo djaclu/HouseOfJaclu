@@ -1,5 +1,3 @@
-import "/styles/menu-bar.css";
-
 /**
  * Dynamic Menu Bar Generator for JACLU Website
  * This function generates menu bars dynamically based on page type
