@@ -39,7 +39,7 @@ body.manifesto-page .footer {
     height: 100vh;
     z-index: 12;
     pointer-events: none;
-    font-family: 'Unifraktur-Regular', serif;
+    font-family: 'Isenheim', serif;
     font-size: 39.5px;
     letter-spacing: 2px;
     fill: #FFFDD0;
@@ -53,7 +53,7 @@ body.manifesto-page .footer {
 .manifesto-content {
     width: 50vw;
     min-width: 450px;
-    max-width: 500px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,7 +69,7 @@ body.manifesto-page .footer {
 }
 
 .manifesto-title {
-    font-family: 'Unifraktur-Regular';
+    font-family: 'Isenheim';
     font-size: 4rem;
     margin-bottom: 2rem;
     letter-spacing: 2px;
@@ -78,7 +78,7 @@ body.manifesto-page .footer {
 }
 
 .manifesto-subtitle {
-    font-family: 'BerlinFraktur-24', serif;
+    font-family: 'Isenheim', serif;
     font-size: 1.25rem;
     color: red;
     letter-spacing: 2px;
@@ -96,7 +96,7 @@ body.manifesto-page .footer {
 }
 
 .manifesto-text {
-    font-family: 'Unifraktur-Regular', serif;
+    font-family: 'Isenheim', serif;
     text-align: center;
     font-size: 1.5rem;
     color:  #FFFDD0;

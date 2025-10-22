@@ -139,17 +139,6 @@ export class CursorEffect {
       this.startAutoSweep();
     };
 
-    // Mouse enter/leave handlers for the window area
-    this.mouseEnterHandler = () => {
-      this.isMouseOverWindow = true;
-      this.stopAutoSweep();
-    };
-
-    this.mouseLeaveHandler = () => {
-      this.isMouseOverWindow = false;
-      this.startAutoSweep();
-    };
-
     // Global mouse move event - works anywhere on the page
     document.addEventListener("mousemove", this.mouseMoveHandler);
 
@@ -161,10 +150,6 @@ export class CursorEffect {
       passive: false,
     });
     document.addEventListener("touchend", this.touchEndHandler);
-
-    // Add window area detection
-    this.svgElement.addEventListener("mouseenter", this.mouseEnterHandler);
-    this.svgElement.addEventListener("mouseleave", this.mouseLeaveHandler);
 
     // Touch events for the SVG element
     this.svgElement.addEventListener("touchstart", this.touchStartHandler, {
@@ -221,8 +206,53 @@ export class CursorEffect {
       y: mouseY * transform.scaleY + transform.offsetY,
     };
 
+    // Check if cursor is over the actual rendered SVG content
+    this.checkIfOverRenderedContent(mouseX, mouseY, rect, viewBox, transform);
+
     // Update debug elements if debug mode is enabled
     this.updateDebugElements();
+  }
+
+  checkIfOverRenderedContent(mouseX, mouseY, rect, viewBox, transform) {
+    // Calculate the actual rendered dimensions of the SVG content
+    const svgAspectRatio = viewBox.width / viewBox.height;
+    const rectAspectRatio = rect.width / rect.height;
+
+    let renderedWidth, renderedHeight, offsetX, offsetY;
+
+    if (svgAspectRatio > rectAspectRatio) {
+      // SVG is wider - letterboxed (black bars top/bottom)
+      renderedWidth = rect.width;
+      renderedHeight = rect.width / svgAspectRatio;
+      offsetX = 0;
+      offsetY = (rect.height - renderedHeight) / 2;
+    } else {
+      // SVG is taller - pillarboxed (black bars left/right)
+      renderedHeight = rect.height;
+      renderedWidth = rect.height * svgAspectRatio;
+      offsetX = (rect.width - renderedWidth) / 2;
+      offsetY = 0;
+    }
+
+    // Check if mouse is within the rendered content area
+    const isOverContent =
+      mouseX >= offsetX &&
+      mouseX <= offsetX + renderedWidth &&
+      mouseY >= offsetY &&
+      mouseY <= offsetY + renderedHeight;
+
+    // Update the window hover state and manage auto-sweep
+    const wasOverWindow = this.isMouseOverWindow;
+    this.isMouseOverWindow = isOverContent;
+
+    // Only change auto-sweep state if the hover state actually changed
+    if (wasOverWindow && !this.isMouseOverWindow) {
+      // Cursor left the rendered content - start auto-sweep
+      this.startAutoSweep();
+    } else if (!wasOverWindow && this.isMouseOverWindow) {
+      // Cursor entered the rendered content - stop auto-sweep
+      this.stopAutoSweep();
+    }
   }
 
   getCoordinateTransform(rect, viewBox) {
@@ -454,7 +484,7 @@ export class CursorEffect {
 
     // Increment the sweep position (moves down the page)
     // Speed can be adjusted here - higher values = faster sweep
-    this.autoSweepIndex += 2;
+    this.autoSweepIndex += 0.5;
 
     // If we've reached the end, reset to the top after a brief pause
     if (this.autoSweepIndex > this.paths.length + 50) {
@@ -528,14 +558,6 @@ export class CursorEffect {
     }
     if (this.touchEndHandler) {
       document.removeEventListener("touchend", this.touchEndHandler);
-    }
-
-    // Remove window area event listeners
-    if (this.mouseEnterHandler) {
-      this.svgElement.removeEventListener("mouseenter", this.mouseEnterHandler);
-    }
-    if (this.mouseLeaveHandler) {
-      this.svgElement.removeEventListener("mouseleave", this.mouseLeaveHandler);
     }
 
     // Remove SVG element touch event listeners

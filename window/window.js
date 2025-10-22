@@ -31,8 +31,15 @@ function initCreed(svgElement, debug = false) {
   }
 }
 
-function setShardsColors(group, groupName) {
-  const palette = colorPalettes[groupName];
+function setShardsColors(group, groupName, glow = false) {
+  // If glow is true, try to use the glow palette first, fallback to regular palette
+  let palette;
+  if (glow) {
+    const glowPaletteName = groupName + "Glow";
+    palette = colorPalettes[glowPaletteName] || colorPalettes[groupName];
+  } else {
+    palette = colorPalettes[groupName];
+  }
 
   if (!palette) {
     return;
@@ -197,7 +204,7 @@ function setShardsAttributes(svgElement, glow = false) {
 
   groups.forEach((group) => {
     const groupName = group.getAttribute("inkscape:label");
-    setShardsColors(group, groupName);
+    setShardsColors(group, groupName, glow);
     if (glow) {
       setShardsLight(group, groupName);
     }
