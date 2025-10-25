@@ -48,11 +48,9 @@ function generateMenuBar() {
 
   // Create Shop Relics link
   const relicsLink = document.createElement("a");
-  relicsLink.href = "https://www.etsy.com/shop/jaclu";
+  relicsLink.href = "/shop";
   relicsLink.className = "menu-link";
   relicsLink.textContent = "SHOP";
-  relicsLink.target = "_blank";
-  relicsLink.rel = "noopener noreferrer";
 
   // Add carriage icon to relics link on all pages
   const carriageIcon = document.createElement("img");
@@ -61,8 +59,10 @@ function generateMenuBar() {
   carriageIcon.className = "menu-icon";
   // relicsLink.appendChild(carriageIcon);
 
-  // Add active class to relics link if on product pages
+  // Add active class to relics link if on product pages or shop page
   if (
+    currentPage === "shop" ||
+    currentPage === "shop.html" ||
     currentPage === "martyrs-choker" ||
     currentPage === "martyrs-choker.html"
   ) {
